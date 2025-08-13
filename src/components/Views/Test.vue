@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div class="mycontainer">
         <div class="wrapper">
             <div class="title-box">
                 <h1>TEST</h1>
@@ -22,7 +22,7 @@
 
 <script setup>
 import { ref } from 'vue';
-import { getAccount } from '../js/account';
+import { getAccount } from '../../js/account';
 
 const name = ref('');
 const account = ref({});
@@ -33,11 +33,11 @@ const updateAccount = () => {
 </script>
 
 
-<style>
+<style scoped>
 *{
     transition: .4s;
 }
-.container{
+.mycontainer{
     background-color: #3d3d3d;
     height: 100vh;
     width: 100vw;

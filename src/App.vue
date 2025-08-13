@@ -1,11 +1,24 @@
 <script setup>
-import Test from './components/Test.vue';
+import Navbar from './components/Molecules/Navbar.vue';
+
+import { useBankStore } from './stores/bank'
+import { useTransactionStore } from './stores/transactions'
+
+const bankStore = useBankStore()
+const transactionsStore = useTransactionStore()
+
+bankStore.loadFromLocalStorage()
+transactionsStore.loadTagsFromLocalStorage()
+transactionsStore.loadFromLocalStorage()
 </script>
 
 <template>
-  <div>
+  <Navbar />
+  <div class="mx-auto px-4 sm:px-6 lg:px-8" >
+    <RouterView />
   </div>
-  <Test />
+  
+  <!-- <Test /> -->
 </template>
 
 <style scoped>
