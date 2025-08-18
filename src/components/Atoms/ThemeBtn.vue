@@ -19,7 +19,8 @@ const isDark = ref(true)
 
 onMounted(() => {
   // Проверка локального хранилища
-  isDark.value = localStorage.getItem('theme') === 'dark'
+  // isDark.value = localStorage.getItem('theme') === 'dark'
+  isDark.value = true
   updateHtmlClass()
 })
 
