@@ -15,7 +15,7 @@
 <script setup>
 import { onMounted, ref } from 'vue'
 
-const isDark = ref(false)
+const isDark = ref(true)
 
 onMounted(() => {
   // Проверка локального хранилища
