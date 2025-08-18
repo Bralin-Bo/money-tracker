@@ -1,12 +1,12 @@
 <template>
     <!-- Main Container -->
-    <div class="flex items-start justify-center pt-30">
-        <div class="w-full max-w-6xl mx-auto px-6 flex items-start justify-between">
+    <div class="flex items-start justify-center">
+        <div class="w-full max-w-7xl mx-auto px-6 flex items-start justify-between">
             <div class="w-full">
                 <p class="text-3xl font-bold text-gray-900 dark:text-white">Настройки</p>
                 <div>
                     <p class="mt-8 text-gray-500 dark:text-gray-400">Настройки тегов</p>
-                    <div class="flex gap-3 mt-4">
+                    <div class="flex flex-col md:flex-row gap-3 mt-4">
                         <div class="w-100 flex flex-col rounded-xl border border-[#dce3ee] dark:border-[#2a3442] bg-white dark:bg-[#111518] shadow-lg overflow-hidden">
                             <!-- Поиск -->
                             <div class="p-3 border-b border-[#e4ebf5] dark:border-[#2a3442] bg-[#f7faff] dark:bg-[#14191f]">
@@ -31,7 +31,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="w-100 p-5 flex flex-col justify-between bg-[#f7faff] dark:bg-[#14191f] rounded-xl shadow-sm border border-[#dce3ee] dark:border-[#2a3442]">
+                        <div class="w-100 min-h-[300px] p-5 flex flex-col justify-between bg-[#f7faff] dark:bg-[#14191f] rounded-xl shadow-sm border border-[#dce3ee] dark:border-[#2a3442]">
                             <div class="flex flex-col gap-3">
                                 <p class="font-semibold text-2xl text-neutral-900 dark:text-white">{{ editMode ? "Редактирование тега" : "Добавление тега" }}</p>
 
@@ -96,21 +96,28 @@
                                 transition-all duration-200 active:scale-[0.97]">
                             Экспорт
                         </button>
+                        <button
+                            @click="triggerImport"
+                            class="w-25 px-3 py-1.5 rounded-lg 
+                                bg-yellow-500 text-white
+                                hover:bg-yellow-600
+                                dark:bg-yellow-600 dark:hover:bg-yellow-500
+                                transition-all duration-200 active:scale-[0.97]">
+                            Импорт
+                        </button>
+                        <!-- Скрытый инпут -->
                         <input
-                        class="w-25 py-2 rounded-lg font-medium
-                                    bg-yellow-500 text-white
-                                    hover:bg-yellow-600
-                                    dark:bg-yellow-600 dark:hover:bg-yellow-500
-                                    transition-colors duration-200"
+                        ref="fileInput"
                         type="file"
-                        placeholder="Импорт"
+                        accept="application/json"
+                        class="hidden"
                         @change="handleImportDataButton"
                         />
                         <!-- Импорт -->
                     </div>
 
                     <!-- Резервное копирование -->
-                    <div class="flex gap-2 my-2 items-center hidden">
+                    <div class="gap-2 my-2 items-center hidden">
                         <p class="min-w-[150px]">Резервное копирование:</p>
                         <button
                         class="w-25 py-2 rounded-lg font-medium
@@ -140,6 +147,14 @@
                 </div>
             </div>  
         </div>
+        <Modal ref="modal">
+            <p class="mb-4  text-2xl opacity-80 text-white">Вы уверены что хотите удалить всё?</p>
+            <div class="flex justify-center mt-3 h-12 gap-3">
+                <Mybtn name="Отмена" class="w-full !bg-yellow-500 hover:bg-yellow-600 hover:shadow-yellow-500/30" @click="closeModal"/>
+                <Mybtn name="Удалить" class="w-full !bg-rose-500 hover:bg-rose-600 hover:shadow-rose-500/30" @click="deleteAll"/>
+            </div>
+        </Modal>
+        <Toast ref="toast" :message="toastMessage" />
     </div>
 </template>
 <script setup>
@@ -147,6 +162,10 @@ import { computed, onMounted, ref } from 'vue';
 import { useTransactionStore } from '../../stores/transactions';
 import { useBankStore } from '../../stores/bank'
 import { useRouter } from 'vue-router';
+import Modal from '../Atoms/Modal.vue';
+import Mybtn from '../Atoms/Mybtn.vue';
+import { getRandomColor } from '../../utils/randomColor';
+import Toast from '../Atoms/Toast.vue';
 
 const bankStore = useBankStore()
 const tStore = useTransactionStore()
@@ -156,6 +175,13 @@ const inputValue = ref('')
 const editMode = ref(false)
 const showColors = ref(false)
 const router = useRouter()
+
+const modal = ref(null);
+
+const openModal = () => modal.value.open();
+const closeModal = () => modal.value.close();
+
+const fileInput = ref(null)
 const setCurrentTag = (tagId) => {
     currentTag.value = tStore.tags.find(tag => tag.id === tagId)
 }
@@ -202,15 +228,7 @@ const colors = {
   gray:     { bg: 'bg-gray-400',      hover: 'hover:bg-gray-600' }
 }
 
-const getRandomColor = () => {
-    const colors = [
-        'red', 'green', 'blue', 'indigo', 'yellow', 'purple', 'pink', 'rose', 'orange', 'amber',
-        'lime', 'teal', 'cyan', 'sky', 'emerald', 'fuchsia', 'violet', 'slate', 'neutral',
-        'zinc', 'stone', 'gray'
-    ]
-    const randomColor = colors[Math.floor(Math.random() * colors.length)]
-    return randomColor
-}
+
 const changeInputTag = (newVal, show) => {
     if(show) {
         inputTagShow.value = newVal
@@ -223,6 +241,7 @@ const deleteAll =()=> {
     tStore.clearAll()
     bankStore.amount = 0
     bankStore.saveToLocalStorage()
+    router.push('/')
 }
 
 
@@ -263,17 +282,23 @@ const handleCreateTagButton = () => {
 }
 
 const handleDeleteTagButton = () => {
-    editMode.value = false
-    tStore.deleteTag(currentTag.value.id)
-    // TODO: make delete tag from transaction
-    currentTag.value = {color: getRandomColor()}
+  editMode.value = false
+  tStore.deleteTag(currentTag.value.id)
+  tStore.deleteTagFromTransactions(currentTag.value.id) // 🆕
+  currentTag.value = { color: getRandomColor() }
+  toastMessage.value = "Тег удален!"
+  showToast()
 }
+
 const handleSaveTagButton = () => {
-    editMode.value = false
-    tStore.updateTag(currentTag.value.id, currentTag.value.name, currentTag.value.color)
-    // TODO: make update tag in transaction
-    currentTag.value = {color: getRandomColor()}
+  editMode.value = false
+  tStore.updateTag(currentTag.value.id, currentTag.value.name, currentTag.value.color)
+  tStore.updateTagInTransactions(currentTag.value.id, currentTag.value.name, currentTag.value.color) // 🆕
+  currentTag.value = { color: getRandomColor() }
+  toastMessage.value = "Тег успешно обновлен!"
+  showToast()
 }
+
 const handleReturnTagButton = () => {
     editMode.value = false
     currentTag.value = {color: getRandomColor()}
@@ -284,8 +309,7 @@ const handleColorClick = (name) => {
     showColors.value = false
 }
 const handleDeleteAllButton = () => {
-    deleteAll()
-    router.push('/')
+    openModal()
 }
 const handleExportDataButton = () => {
     exportAllData()
@@ -294,7 +318,9 @@ const handleImportDataButton = (e) => {
     importAllData(e)
     router.push('/')
 }
-
+const triggerImport = () => {
+    fileInput.value.click()
+}
 // 📤 Экспорт всех данных в JSON
 function exportAllData() {
   const allData = {
@@ -363,6 +389,14 @@ function importAllData(event) {
 onMounted(() => {
     currentTag.value.color = getRandomColor()
 })
+
+
+
+const toastMessage = ref("Это уведомление!");
+const toast = ref(null);
+const showToast = () => {
+  toast.value.show();
+};
 </script>
 <style> 
         .custom-scroll {

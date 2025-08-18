@@ -92,8 +92,24 @@ export const useTransactionStore = defineStore('transaction', {
         this.tags = parsed.tags || []
         this.tagIdCounter = parsed.tagIdCounter || 0
       }
+    },
+    updateTagInTransactions(id, newName, newColor) {
+      this.transactions.forEach(trn => {
+        trn.tags = trn.tags.map(tag =>
+          tag.id === id ? { ...tag, name: newName, color: newColor } : tag
+        )
+      })
+      this.saveToLocalStorage()
+    },
+
+    deleteTagFromTransactions(id) {
+      this.transactions.forEach(trn => {
+        trn.tags = trn.tags.filter(tag => tag.id !== id)
+      })
+      this.saveToLocalStorage()
     }
   },
+  
   getters: {
     isTagExist(name) {
       return this.tags.some(t => t.name.toLowerCase() === name.trim().toLowerCase())

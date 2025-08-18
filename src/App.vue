@@ -14,7 +14,7 @@ transactionsStore.loadFromLocalStorage()
 
 <template>
   <Navbar />
-  <div class="mx-auto px-4 sm:px-6 lg:px-8" >
+  <div class="md:pt-20 px-4 sm:px-6 lg:px-8 md:pb-20 pb-30 pt-5" >
     <RouterView />
   </div>
   

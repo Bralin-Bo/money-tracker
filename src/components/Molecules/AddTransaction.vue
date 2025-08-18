@@ -6,6 +6,7 @@ import { computed, ref } from 'vue';
 import { useTransactionStore } from '../../stores/transactions';
 import TagBtn from '../Atoms/TagBtn.vue';
 import TagInput from './TagInput.vue';
+import { getRandomColor } from '../../utils/randomColor';
 
 const bank = useBankStore()
 const tStore = useTransactionStore()
@@ -192,8 +193,7 @@ const handleNewTag = (name: string) => {
   if (!trimmed) return
 
   if (!tStore.isTagsExist(trimmed)) {
-    const colors = ['red', 'green', 'blue', 'yellow', 'purple', 'pink']
-    const color = colors[Math.floor(Math.random() * colors.length)]
+    const color = getRandomColor()
     tStore.createTag({ name: trimmed, color })
   }
 
@@ -215,7 +215,7 @@ const addTag = (tag: { id: number; name: string }) => {
 </script>
 
 <template>
-    <div class="slide-in-right text-center max-w-md rounded-lg p-4 glass-effect circle-glow">
+    <div class="slide-in-right text-center max-w-md rounded-lg p-4 bg-gray-900/50">
         <p class="mb-4  text-2xl opacity-80 text-white">Добавить транзакцию</p>
         <Myinput name="Сумма транзакции" type="date" :value="inputsData.date" @change="inputsData.date = $event.target.value"/>
         <Myinput :class="errors.amount ? '!bg-red-100 show-error' : ''" name="Сумма транзакции" type="number" :value="inputsData.amount" @input="inputsData.amount = parseInt($event.target.value)"/>
@@ -225,7 +225,7 @@ const addTag = (tag: { id: number; name: string }) => {
             <div
                 v-if="tagsPanelOn"
                 style="top: 35px;"
-                class="absolute mt-1 z-2 w-full rounded-lg bg-gray-100 dark:bg-gray-800 shadow-md border border-gray-300 dark:border-gray-600 max-h-48 overflow-y-auto tagPanel"
+                class="absolute mt-1 z-20 w-full rounded-lg bg-gray-100 dark:bg-gray-800 shadow-md border border-gray-300 dark:border-gray-600 max-h-48 overflow-y-auto tagPanel"
             >
                 <div
                     v-if="  inputTag.trim() !== '' && !filteredTags.some(t => t.name.toLowerCase() === inputTag.trim().toLowerCase())"

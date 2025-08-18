@@ -1,7 +1,7 @@
 <template>
     <!-- <p @click="toggleTheme" class="cursor-pointer hover:scale-120">{{ isDark ? 'Light' : 'Dark' }}</p> -->
     
-    <button @click="toggleTheme" class="p-2 rounded-full hover:scale-130 hover:bg-opacity-20 transition-all duration-300">
+    <button @click="toggleTheme" class="p-2 rounded-full hover:scale-130 hover:bg-opacity-20 transition-all duration-300 hidden">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" v-if="!isDark">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
         </svg>

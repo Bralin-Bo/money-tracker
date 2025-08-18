@@ -1,7 +1,7 @@
 <template>
     <div class="flex-1 flex items-center justify-center slide-in">
     <div class="relative">
-        <div class="w-80 h-80 overflow-hidden rounded-full glass-effect circle-glow pulse-animation flex flex-col items-center justify-center">
+        <div class="w-80 h-80 overflow-hidden rounded-full bg-emerald-700 pulse-animation flex flex-col items-center justify-center">
             <div class="text-center">
                 <p class="text-lg font-light opacity-80 mb-2">Ваш кошелек:</p>
                 <p :class="bank.amount > 100000 ? 'text-5xl' : 'text-6xl'" class="font-bold bg-gradient-to-r from-white to-blue-200 bg-clip-text text-transparent">
@@ -11,9 +11,9 @@
         </div>
         
         <!-- Decorative Elements -->
-        <div class="absolute -top-4 -right-4 w-8 h-8 bg-blue-400 rounded-full opacity-60"></div>
-        <div class="absolute -bottom-6 -left-6 w-12 h-12 bg-purple-400 rounded-full opacity-40"></div>
-        <div class="absolute top-1/2 -left-8 w-6 h-6 bg-green-400 dark:bg-white rounded-full opacity-30"></div>
+        <div class="absolute -top-4 -right-4 w-8 h-8 bg-blue-400 rounded-full opacity-60 up-down-anim "></div>
+        <div class="absolute -bottom-6 -left-6 w-12 h-12 bg-purple-400 rounded-full opacity-40 up-down-anim2 "></div>
+        <div class="absolute top-1/2 -left-8 w-6 h-6 bg-green-400 dark:bg-white rounded-full opacity-30 up-down-anim3 "></div>
     </div>
 </div>
 
@@ -58,6 +58,21 @@ watch(
 @keyframes pulse {
     0%, 100% { transform: scale(1); }
     50% { transform: scale(1.05); }
+}
+
+.up-down-anim {
+    animation: upDown 5s infinite;
+}
+.up-down-anim2 {
+    animation: upDown 7s infinite;
+}
+.up-down-anim3 {
+    animation: upDown 4s infinite;
+}
+
+@keyframes upDown {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(10px); }
 }
 
 .slide-in {

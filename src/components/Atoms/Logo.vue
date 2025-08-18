@@ -1,5 +1,5 @@
 <template>
-    <RouterLink to="/" class="font-bold text-xl">Money Tracker</RouterLink>
+    <RouterLink to="/" class="font-bold text-lg text-emerald-500">MT</RouterLink>
 </template>
 
 <script>

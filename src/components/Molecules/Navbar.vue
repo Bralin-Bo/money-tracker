@@ -7,20 +7,36 @@ import ThemeBtn from '../Atoms/ThemeBtn.vue';
 </script>
 
 <template>
-    <div class="fixed text-white w-full z-5">
-        <div class="px-4 py-5 flex justify-between 
-        border-3 border-t-0 border-primary rounded-b-2xl max-w-7xl mx-auto z-50 
-        circle-glow glass-effect">
-            <div class="flex gap-2 items-center">
-                <Logo />
-                <ThemeBtn />
-            </div>
-            <div class="flex gap-3 items-center">
-                <Mylink name="Главная" link="/"/>
-                <Mylink name="Статистика" link="/stat"/>
-                <Mylink name="Настройки" link="/settings"/>
-                <Mylink name="Тест" link="/test"/>
-            </div>
+    <!-- Десктоп версия -->
+    <div 
+        class="hidden md:flex fixed text-white h-screen z-50 items-center py-20 pl-10"
+    >
+        <div 
+        class="px-4 py-5 flex justify-between flex-col
+        border-2 border-primary rounded-2xl 
+        bg-gray-800 h-full"
+        >
+        <div class="flex gap-3 items-center flex-col">
+            <Logo />
+            <Mylink name="Главная" link="/"/>
+            <Mylink name="История" link="/transactions"/>
+            <Mylink name="Статистика" link="/stat"/>
+            <Mylink name="Настройки" link="/settings"/>
+            <div class="flex gap-2 items-center hidden"> <ThemeBtn /> </div>
+        </div>
+        </div>
+    </div>
+
+    <!-- Мобильная версия -->
+    <div 
+        class="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-gray-800 border-t-2 py-5 border-primary"
+    >
+        <div class="flex justify-around items-center py-2">
+        <Mylink name="Главная" link="/"/>
+        <Mylink name="История" link="/transactions"/>
+        <Mylink name="Статистика" link="/stat"/>
+        <Mylink name="Настройки" link="/settings"/>
+        <div class="flex gap-2 items-center hidden"> <ThemeBtn /> </div>
         </div>
     </div>
 </template>
