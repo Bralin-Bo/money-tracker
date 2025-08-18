@@ -91,6 +91,16 @@
           <p>{{ tag.color }} — {{ tag.amount }} ₸ ({{ tag.percent }}%)</p>
         </div> -->
 
+
+        <div v-if="chartDataIncome.labels.length === 0" class="flex flex-col items-center justify-center py-10 text-slate-500 dark:text-slate-400">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mb-3 text-slate-400 dark:text-slate-500" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M12 8a3 3 0 00-3 3v1H7a1 1 0 00-1 1v6h12v-6a1 1 0 00-1-1h-2v-1a3 3 0 00-3-3z"/>
+          </svg>
+          <span class="font-medium">Нет данных по доходам</span>
+          <span class="text-sm text-slate-400 dark:text-slate-500">Добавьте транзакции с тегами</span>
+        </div>
+
         <div class="relative" id="chart-container">
           <div class="pie-chart" ref="pieChart"></div>
           <ul class="legend" ref="legend"></ul>
@@ -107,6 +117,14 @@
         >
           <p>{{ tag.name }} — {{ tag.amount }} ₸ ({{ tag.percent }}%)</p>
         </div> -->
+        <div v-if="chartDataExpense.labels.length === 0" class="flex flex-col items-center justify-center py-10 text-slate-500 dark:text-slate-400">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mb-3 text-slate-400 dark:text-slate-500" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M12 8a3 3 0 00-3 3v1H7a1 1 0 00-1 1v6h12v-6a1 1 0 00-1-1h-2v-1a3 3 0 00-3-3z"/>
+          </svg>
+          <span class="font-medium">Нет данных по расходам</span>
+          <span class="text-sm text-slate-400 dark:text-slate-500">Добавьте транзакции с тегами</span>
+        </div>
 
         <div class="relative" id="chart-container2">
           <div class="pie-chart" ref="pieChart2"></div>

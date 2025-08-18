@@ -10,7 +10,7 @@ const tStore = useTransactionStore()
     <div class="max-w-7xl mx-auto p-6 bg-gray-800 rounded-lg pb-20">
         <p class="text-3xl font-bold text-gray-800 dark:text-gray-100 ">Главная</p>
 
-        <div class="flex gap-10 mt-10 flex-col">
+        <div class="flex gap-10 mt-10 flex-col md:flex-row">
             <div>
                 <AddTransaction />
             </div>

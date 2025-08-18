@@ -19,7 +19,26 @@
             <tbody
                 @click="(e)=>{handleTrnClick(e)}"
             >
-
+               <tr
+                v-if="sortedTransactions.length === 0"
+                class="bg-white dark:bg-slate-900"
+              >
+                <td
+                  colspan="4"
+                  class="px-6 py-12 text-center text-slate-500 dark:text-slate-400 text-lg font-medium"
+                >
+                  <div class="flex flex-col items-center justify-center gap-3">
+                    <!-- Иконка -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-slate-400 dark:text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M12 8c-1.657 0-3 1.343-3 3v1H7a1 1 0 00-1 1v6h12v-6a1 1 0 00-1-1h-2v-1c0-1.657-1.343-3-3-3z" />
+                    </svg>
+                    <!-- Текст -->
+                    <span>Транзакций пока нет</span>
+                    <span class="text-sm text-slate-400 dark:text-slate-500">Добавьте первую, чтобы начать отслеживать финансы</span>
+                  </div>
+                </td>
+              </tr>
               <tr
                 v-for="trn in sortedTransactions"
                 :key="trn.id"
@@ -166,6 +185,14 @@ const addTag = (tag) => {
     return
   }
   inputsData.value.tags.push(tag)
+}
+// Удаление тега из списка тегов транзакции
+const removeTag = (id) => {
+  const tagBtn = document.querySelector(`.tag-${id}`)
+  tagBtn?.classList.add('remove')
+  setTimeout(() => {
+    inputsData.value.tags = inputsData.value.tags.filter(t => t.id !== id)
+  }, 500)
 }
 
 const handleTrnClick = (e) => {

@@ -7,7 +7,7 @@
                 <div>
                     <p class="mt-8 text-gray-500 dark:text-gray-400">Настройки тегов</p>
                     <div class="flex flex-col md:flex-row gap-3 mt-4">
-                        <div class="w-100 flex flex-col rounded-xl border border-[#dce3ee] dark:border-[#2a3442] bg-white dark:bg-[#111518] shadow-lg overflow-hidden">
+                        <div class="md:w-100 w:80 flex flex-col rounded-xl border border-[#dce3ee] dark:border-[#2a3442] bg-white dark:bg-[#111518] shadow-lg overflow-hidden">
                             <!-- Поиск -->
                             <div class="p-3 border-b border-[#e4ebf5] dark:border-[#2a3442] bg-[#f7faff] dark:bg-[#14191f]">
                                 <input type="text"
@@ -31,7 +31,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="w-100 min-h-[300px] p-5 flex flex-col justify-between bg-[#f7faff] dark:bg-[#14191f] rounded-xl shadow-sm border border-[#dce3ee] dark:border-[#2a3442]">
+                        <div class="md:w-100 w:80 min-h-[300px] p-5 flex flex-col justify-between bg-[#f7faff] dark:bg-[#14191f] rounded-xl shadow-sm border border-[#dce3ee] dark:border-[#2a3442]">
                             <div class="flex flex-col gap-3">
                                 <p class="font-semibold text-2xl text-neutral-900 dark:text-white">{{ editMode ? "Редактирование тега" : "Добавление тега" }}</p>
 
@@ -39,7 +39,7 @@
                                 <input 
                                     type="text" 
                                     placeholder="Название тега" 
-                                    class="p-2 rounded-lg border border-[#dce3ee] dark:border-[#2a3442] bg-white dark:bg-[#111518] focus:outline-none focus:ring-2 focus:ring-accent focus:border-accent transition w-80"
+                                    class="p-2 rounded-lg border border-[#dce3ee] dark:border-[#2a3442] bg-white dark:bg-[#111518] focus:outline-none focus:ring-2 focus:ring-accent focus:border-accent transition w-full"
                                     v-model="currentTag.name"
                                 >
 
@@ -143,6 +143,15 @@
                             Удалить
                         </button>
                     </div>
+                </div><div class="pb-20">
+                  <p class="mt-8 text-gray-500 dark:text-gray-400">Ваши данные</p>
+                  <div class="mt-4 text-sm">
+                    <!-- Перенос данных -->
+                    <div class="flex gap-2 my-2 items-center">
+                        <p class="min-w-[150px]">Сообщить о баге или предложении:</p>
+                        <a href="https://t.me/thebralin" class="text-lg text-orange-500 hover:text-orange-600 hover:scale-[1.02]" target="_blank">Бралин Болат</a>
+                    </div>
+                </div>
                 </div>
                 </div>
             </div>  
